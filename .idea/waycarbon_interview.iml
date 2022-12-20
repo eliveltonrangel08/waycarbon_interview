@@ -7,7 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/app/test/crud/.pytest_cache" />
       <excludeFolder url="file://$MODULE_DIR$/app/test/.pytest_cache" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.11 (interviews)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">

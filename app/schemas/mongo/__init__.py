@@ -1,1 +1,1 @@
-from .documents import Documents, DocumentsCreate, DocumentsUpdate          # noqa
+from .documents import Documents, DocumentsCreate, DocumentsUpdate, DocumentsBase          # noqa

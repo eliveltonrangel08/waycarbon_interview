@@ -29,14 +29,16 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
     def get(self, id: Any) -> Optional[ModelType]:
         db_collection = self.db_session[self.collection_name]
-        return db_collection.find_one({"_id": id})
+        item = db_collection.find_one({"_id": id})
+        return self.model(**item)
 
     def get_multi(
             self, *, skip: int = 0, limit: int = 100
     ) -> List[ModelType]:
         db_collection = self.db_session[self.collection_name]
-        documents = db_collection.find()
-        return documents
+        items = db_collection.find()
+        model_obj_list = [self.model(**document) for document in items]
+        return model_obj_list
 
     def create(self, *, obj_in: Union[Dict, CreateSchemaType]) -> ModelType:
         if isinstance(obj_in, dict):
@@ -47,8 +49,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
         db_collection = self.db_session[self.collection_name]
         db_obj = db_collection.insert_one(create_data)
-        print(db_obj)
-        return db_obj
+        return self.model(**db_obj)
 
     def update(
             self, *, obj_id: int, obj_in: Union[UpdateSchemaType, Dict[str, Any]]
@@ -62,9 +63,9 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
         db_collection = self.db_session[self.collection_name]
         db_obj = db_collection.find_one_and_update({"_id": obj_id}, **update_data)
-        return db_obj
+        return self.model(**db_obj)
 
     def remove(self, *, id: int) -> ModelType:
         db_collection = self.db_session[self.collection_name]
         db_obj = db_collection.delete_one({"_id": id})
-        return db_obj
+        return self.model(**db_obj)
