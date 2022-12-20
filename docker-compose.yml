@@ -1,0 +1,41 @@
+version: "3.3"
+services:
+
+  db:
+    image: mysql/mysql-server:8.0
+    volumes:
+      - mysql8:/var/lib/mysql
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD=toor
+      - MYSQL_DB=interview
+    ports:
+      - "3306:3306"
+    restart: on-failure
+    command: '--default-authentication-plugin=mysql_native_password'
+    network_mode: "host"
+
+  mongo-db:
+    image: mongo
+    restart: always
+    volumes:
+      - mongodb:/etc/mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+    ports:
+      - "27017:27017"
+
+#  mongo-express:
+#    image: mongo-express
+#    restart: always
+#    ports:
+#      - 8081:8081
+#    environment:
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: toor
+#      ME_CONFIG_MONGODB_URL: mongodb://root:toor@mongo:27017/
+
+volumes:
+  mysql8:
+  mongodb:
